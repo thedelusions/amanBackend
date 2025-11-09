@@ -11,7 +11,7 @@ router.post('/', verifyToken, async (req, res) => {
   try {
     const { areaName, title, type, description } = req.body;
 
-    const report = await Report({
+    const report = await Report.create({
       author: req.user._id,
       areaName,
       title,
@@ -19,11 +19,20 @@ router.post('/', verifyToken, async (req, res) => {
       description
     });
 
-    await report.create();
 
     res.status(201).json(report);
   } catch (err) {
-    res.status(500).json({ message: 'Error creating report:', error: err.message });
+    res.status(500).json({ message: 'Error creating report', error: err.message });
+  }
+});
+
+//get all reports
+router.get('/', async (req, res) => {
+  try {
+    const reports = await Report.find().populate('author', 'username');
+    res.status(200).json(reports);
+  } catch (err) {
+    res.status(500).json({ message: 'Error getting the reports', error: err.message });
   }
 });
 
