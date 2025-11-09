@@ -36,4 +36,15 @@ router.get('/', async (req, res) => {
   }
 });
 
+//show singel report
+router.get('/:id', async (req, res) => {
+  try {
+    const report = await Report.findById(req.params.id).populate('author', 'username');
+    
+    res.status(200).json(report);
+  } catch (err) {
+    res.status(500).json({ message: 'Error getting the report', error: err.message });
+  }
+});
+
 module.exports = router;
