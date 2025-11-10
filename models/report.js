@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 
+const areas = areasFile.map(a => a.city);
+
 const reportSchema = mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     require: true,
   }, 
-  areaName: {
+  area: {
     type: String,
+    enum: areas,
     require: true,
   },
   title: {
