@@ -19,6 +19,15 @@ router.post('/', verifyToken, async (req, res) => {
 
     }
     });
-    
-})
 
+router.get('/:report_id', async (req, res) => {
+    try {
+        const comments = await Comment.find({ reports_id: req.params.report_id })
+        .populate('user_id', 'name')
+        .sort({ created_at: -1});
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(500).json({ message: 'Error getting comments', error: err.message });
+  }
+});
