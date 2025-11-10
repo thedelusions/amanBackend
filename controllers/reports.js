@@ -47,4 +47,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//update report
+router.put('/:id', verifyToken, async (req, res) => {
+  try {
+    const report = await Report.findById(req.params.id);
+
+    if (!report) {
+      return res.status(404).json({ message: 'Report not found' });
+    }
+
+    const updatedReport = await Report.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+      updatedReport._doc.author = req.user;
+
+    res.status(200).json(updatedReport);
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating the report', error: err.message });
+  }
+});
+
 module.exports = router;
