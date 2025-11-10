@@ -62,8 +62,6 @@ router.put('/:id', verifyToken, async (req, res) => {
       { new: true }
     );
 
-      updatedReport._doc.author = req.user;
-
     res.status(200).json(updatedReport);
   } catch (err) {
     res.status(500).json({ message: 'Error updating the report', error: err.message });
