@@ -15,7 +15,7 @@ const testJwtRouter = require('./controllers/test-jwt');
 const authCtrl = require('./controllers/auth');
 const usersCtrl = require('./controllers/users');
 const reportsCtrl = require('./controllers/reports');
-
+const adminCtrl = require('./controllers/admin');
 // MiddleWare
 const verifyToken = require('./middleware/verify-token');
 
@@ -33,6 +33,7 @@ app.use(logger('dev'));
 app.use('/auth', authCtrl);
 app.use('/test-jwt', testJwtRouter);
 app.use('/reports', reportsCtrl);
+app.use('/admin/reports', adminCtrl);
 
 // Protected Routes
 app.use(verifyToken);

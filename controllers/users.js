@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middleware/verify-token');
 const User = require('../models/user');
+const Report = require('../models/report');
 
 //get user profile
 router.get('/:userId', async (req, res) => {
@@ -61,6 +62,22 @@ router.delete('/:id', async (req, res) => {
     res.status(200).json({ message: 'Account deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+//get the reports for the user 
+router.get('/:id/reports', verifyToken, async (req, res) => {
+  try {
+
+    if (req.user._id !== req.params.id) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    const reports = await Report.find({ author: req.params.id });
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user reports' });
   }
 });
 

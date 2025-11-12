@@ -21,12 +21,13 @@ router.post('/sign-up', async (req, res) => {
     req.body.hashedPassword = hashedPassword;
 
     const newUser = await User.create({
-      name, email, hashedPassword, phone, area,
+      name, email, hashedPassword, phone, area,role: "resident",
     });
 
     const payload = {
       email: newUser.email,
       _id: newUser._id,
+      role: newUser.role,
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -49,7 +50,7 @@ router.post('/sign-in', async (req, res) => {
     }
 
     const validPassword = bcrypt.compareSync(req.body.password, userInDatabase.hashedPassword);
-
+   
     if (!validPassword) {
       return res.status(401).json({ err: 'Email or Password is invalid' });
     }
@@ -57,6 +58,7 @@ router.post('/sign-in', async (req, res) => {
     const payload = {
       email: userInDatabase.email,
       _id: userInDatabase._id,
+      role: userInDatabase.role
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET);

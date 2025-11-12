@@ -26,6 +26,11 @@ require: true,
     enum: areas,
     require: true,
   },
+  role: {
+  type: String,
+  enum: ["resident", "admin"],
+  default: "resident",
+},
   createdAt: {
     type: Date,
     default: Date.now,
