@@ -5,17 +5,6 @@ const User = require('../models/user');
 const Report = require('../models/report');
 
 
-//get all users
-//needed to get user Information in the front-end
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find({}).select('-hashedPassword');
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 //get user profile
 router.get('/:userId', async (req, res) => {
   try {

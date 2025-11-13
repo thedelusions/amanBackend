@@ -29,7 +29,7 @@ router.post('/', verifyToken, async (req, res) => {
 //get all reports
 router.get('/', async (req, res) => {
   try {
-    const reports = await Report.find().populate('author', 'username');
+    const reports = await Report.find({status: 'approved'}).populate('author', 'username');
     res.status(200).json(reports);
   } catch (err) {
     res.status(500).json({ message: 'Error getting the reports', error: err.message });

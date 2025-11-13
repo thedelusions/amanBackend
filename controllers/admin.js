@@ -3,6 +3,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/verify-token');
 const verifyAdmin = require('../middleware/verify-admin');
 const Report = require('../models/report');
+const User = require('../models/user');
 
 // Get all reports
 router.get('/', verifyToken, verifyAdmin, async (req, res) => {
@@ -59,6 +60,16 @@ router.put('/:id/pending', verifyToken, verifyAdmin, async (req, res) => {
     res.status(200).json(report);
   } catch (err) {
     res.status(500).json({ message: 'Error setting report to pending', error: err.message });
+  }
+});
+
+//access all users
+router.get('/users', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const users = await User.find({}).select('-hashedPassword');
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "failed to fetch users" });
   }
 });
 
