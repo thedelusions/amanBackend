@@ -17,7 +17,13 @@ const commentSchema = mongoose.Schema({
     },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },
-});
+    toJSON: {
+      transform: function(doc, ret) {
+        ret.created_at = new Date(ret.created_at).toLocaleString();
+        return ret;
+      }
+    }
+  });
 
 const Comment = mongoose.model('Comment', commentSchema);
 

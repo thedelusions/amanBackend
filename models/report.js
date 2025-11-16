@@ -33,8 +33,15 @@ const reportSchema = mongoose.Schema({
     default: 'pending',
   },
 }, {
-  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-});
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    toJSON: {
+      transform: function(doc, ret) {
+        ret.created_at = new Date(ret.created_at).toLocaleString();
+        ret.updated_at = new Date(ret.updated_at).toLocaleString();
+        return ret;
+      }
+    }
+  });
 
 const Report = mongoose.model('Report', reportSchema);
 
