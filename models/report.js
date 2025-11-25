@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const areasFile = require('./bh.json');
 
-const areas = areasFile.map(a => a.city);
+const areas = Object.values(areasFile).flat();
 
 const reportSchema = mongoose.Schema({
   author: {
