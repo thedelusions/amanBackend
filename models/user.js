@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const areasFile = require('./bh.json');
 
-//extract the city name
-const areas = areasFile.map(a => a.city);
+const areas = Object.values(areasFile).flat();
 
 const userSchema = mongoose.Schema({
   name: {
